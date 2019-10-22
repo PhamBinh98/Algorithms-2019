@@ -17,6 +17,7 @@ class TaskTestsJava : AbstractTaskTests() {
         sortAddresses { inputName, outputName -> JavaTasks.sortAddresses(inputName, outputName) }
     }
 
+
     @Test
     @Tag("Normal")
     fun testSortTemperatures() {

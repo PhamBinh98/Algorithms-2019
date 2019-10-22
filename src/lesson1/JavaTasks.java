@@ -2,6 +2,14 @@ package lesson1;
 
 import kotlin.NotImplementedError;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @SuppressWarnings("unused")
 public class JavaTasks {
     /**
@@ -34,9 +42,9 @@ public class JavaTasks {
      *
      * В случае обнаружения неверного формата файла бросить любое исключение.
      */
-    static public void sortTimes(String inputName, String outputName) {
+    static public void sortTimes(String inputName, String outputName){
         throw new NotImplementedError();
-    }
+        }
 
     /**
      * Сортировка адресов
@@ -98,8 +106,30 @@ public class JavaTasks {
      * 99.5
      * 121.3
      */
-    static public void sortTemperatures(String inputName, String outputName) {
-        throw new NotImplementedError();
+    static public void sortTemperatures(String inputName, String outputName) throws Exception {
+        File file = new File(inputName);
+        FileReader fr = new FileReader(file);
+        BufferedReader br = new BufferedReader(fr);
+        ArrayList<Integer> list = new ArrayList<>();
+
+        String temp;
+        while ((temp = br.readLine()) != null) {
+            int x = (int) (Double.parseDouble(temp) * 10);
+            list.add(x);
+        }
+        int[] arr = new int[list.size()];
+        for (int i = 0; i <= list.size() -1; i++) {
+            arr[i] = list.get(i);
+        }
+        Sorts.quickSort(arr);
+        FileWriter fw = new FileWriter(new File(outputName));
+        for (int i : arr) {
+            double j = (double) i / 10;
+            fw.write(String.valueOf(j) + "\n");
+        }
+        fw.close();
+        // трудоёмкост : O(n*log(n)) - n:количество входных строк
+        // ресурсоёмкост : O(n)
     }
 
     /**
@@ -131,9 +161,47 @@ public class JavaTasks {
      * 2
      * 2
      */
-    static public void sortSequence(String inputName, String outputName) {
-        throw new NotImplementedError();
+    static public void sortSequence(String inputName, String outputName) throws Exception {
+        BufferedReader br = new BufferedReader(new FileReader(new File(inputName)));
+        List<Integer> list = new ArrayList<>();
+        String str = br.readLine();
+        while (str != null) {
+            list.add(Integer.parseInt(str));
+            str = br.readLine();
+        }
+        Collections.sort(list);
+        int maxQt = 0;
+        int countQt = 0;
+        int val = list.get(0);
+        int ele = list.get(0);
+        for (int i: list) {
+            if (i != ele) {
+                countQt = 0;
+                ele = i;
+            }
+            countQt++;
+            if (countQt > maxQt) {
+                maxQt = countQt;
+                val =i;
+            }
+        }
+        FileWriter fw = new FileWriter(new File(outputName));
+        br = new BufferedReader(new FileReader(new File(inputName)));
+        str = br.readLine();
+        while (str != null) {
+            if (Integer.parseInt(str) != val) fw.write(str + "\n");
+            str = br.readLine();
+        }
+        for (int j = 1; j < maxQt + 1; j++) {
+            fw.write(String.valueOf(val) + "\n");
+        }
+        fw.close();
+
+        // трудоёмкост : O(n*log(n))
+
+        // ресурсоёмкост : O(n)
     }
+
 
     /**
      * Соединить два отсортированных массива в один
@@ -150,6 +218,27 @@ public class JavaTasks {
      * Результат: second = [1 3 4 9 9 13 15 20 23 28]
      */
     static <T extends Comparable<T>> void mergeArrays(T[] first, T[] second) {
-        throw new NotImplementedError();
+        int x = 0;
+        int y = first.length;
+        int z = -1;
+        while (z < second.length && x < first.length) {
+            z++;
+            if (y >= second.length) {
+                second[z] = first[x];
+                x++;
+                continue;
+            }
+            if (first[x].compareTo(second[y]) > 0){
+                second[z] = second[y];
+                y++;
+            } else {
+                second[z] = first[x];
+                x++;
+            }
+        }
+        // трудоёмкост : O(n)
+
+        // ресурсоёмкост : O(1)
     }
+
 }

@@ -76,7 +76,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     public boolean remove(Object o) {
         // TODO
         throw new NotImplementedError();
-    }
+}
 
     @Override
     public boolean contains(Object o) {
@@ -143,74 +143,75 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
         }
     }
 
-    @NotNull
-    @Override
-    public Iterator<T> iterator() {
-        return new BinaryTreeIterator();
-    }
-
-    @Override
-    public int size() {
-        return size;
-    }
-
-
-    @Nullable
-    @Override
-    public Comparator<? super T> comparator() {
-        return null;
-    }
-
-    /**
-     * Для этой задачи нет тестов (есть только заготовка subSetTest), но её тоже можно решить и их написать
-     * Очень сложная
-     */
-    @NotNull
-    @Override
-    public SortedSet<T> subSet(T fromElement, T toElement) {
-        // TODO
-        throw new NotImplementedError();
-    }
-
-    /**
-     * Найти множество всех элементов меньше заданного
-     * Сложная
-     */
-    @NotNull
-    @Override
-    public SortedSet<T> headSet(T toElement) {
-        // TODO
-        throw new NotImplementedError();
-    }
-
-    /**
-     * Найти множество всех элементов больше или равных заданного
-     * Сложная
-     */
-    @NotNull
-    @Override
-    public SortedSet<T> tailSet(T fromElement) {
-        // TODO
-        throw new NotImplementedError();
-    }
-
-    @Override
-    public T first() {
-        if (root == null) throw new NoSuchElementException();
-        Node<T> current = root;
-        while (current.left != null) {
-            current = current.left;
+        @NotNull
+        @Override
+        public Iterator<T> iterator() {
+            return new BinaryTreeIterator();
         }
-        return current.value;
+
+        @Override
+        public int size() {
+            return size;
+        }
+
+
+        @Nullable
+        @Override
+        public Comparator<? super T> comparator() {
+            return null;
+        }
+
+        /**
+         * Для этой задачи нет тестов (есть только заготовка subSetTest), но её тоже можно решить и их написать
+         * Очень сложная
+         */
+        @NotNull
+        @Override
+        public SortedSet<T> subSet(T fromElement, T toElement) {
+            // TODO
+            throw new NotImplementedError();
+        }
+
+        /**
+         * Найти множество всех элементов меньше заданного
+         * Сложная
+         */
+        @NotNull
+        @Override
+        public SortedSet<T> headSet(T toElement) {
+            // TODO
+            throw new NotImplementedError();
+        }
+
+        /**
+         * Найти множество всех элементов больше или равных заданного
+         * Сложная
+         */
+        @NotNull
+        @Override
+        public SortedSet<T> tailSet(T fromElement) {
+            // TODO
+            throw new NotImplementedError();
+        }
+
+        @Override
+        public T first() {
+            if (root == null) throw new NoSuchElementException();
+            Node<T> current = root;
+            while (current.left != null) {
+                current = current.left;
+            }
+            return current.value;
+        }
+
+        @Override
+        public T last() {
+            if (root == null) throw new NoSuchElementException();
+            Node<T> current = root;
+            while (current.right != null) {
+                current = current.right;
+            }
+            return current.value;
+        }
     }
 
-    @Override
-    public T last() {
-        if (root == null) throw new NoSuchElementException();
-        Node<T> current = root;
-        while (current.right != null) {
-            current = current.right;
-        }
-        return current.value;
-    }
-}
