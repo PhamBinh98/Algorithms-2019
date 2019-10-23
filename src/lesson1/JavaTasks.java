@@ -107,29 +107,70 @@ public class JavaTasks {
      * 121.3
      */
     static public void sortTemperatures(String inputName, String outputName) throws Exception {
-        File file = new File(inputName);
-        FileReader fr = new FileReader(file);
-        BufferedReader br = new BufferedReader(fr);
-        ArrayList<Integer> list = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader(new File(inputName)));
 
-        String temp;
-        while ((temp = br.readLine()) != null) {
-            int x = (int) (Double.parseDouble(temp) * 10);
-            list.add(x);
+        List<Integer> listNegativeInt = new ArrayList<>();
+
+        List<Integer> listPositiveInt = new ArrayList<>();
+
+        String temp = br.readLine();
+
+        int value = 0;
+
+        while (temp != null) {
+
+            value = (int) (Double.parseDouble(temp) * 10);
+
+            if (value < 0) {
+
+                listNegativeInt.add(-value);
+
+            } else listPositiveInt.add(value);
+
+            temp = br.readLine();
+
         }
-        int[] arr = new int[list.size()];
-        for (int i = 0; i <= list.size() -1; i++) {
-            arr[i] = list.get(i);
+
+        int[] arrayAm = new int[listNegativeInt.size()];
+
+        int[] arrayDuong = new int[listPositiveInt.size()];
+
+        for (int i = 0; i < listNegativeInt.size(); i++) {
+
+            arrayAm[i] = listNegativeInt.get(i);
+
         }
-        Sorts.quickSort(arr);
-        FileWriter fw = new FileWriter(new File(outputName));
-        for (int i : arr) {
-            double j = (double) i / 10;
-            fw.write(String.valueOf(j) + "\n");
+
+        for (int j = 0; j < listPositiveInt.size(); j++) {
+
+            arrayDuong[j] = listPositiveInt.get(j);
+
         }
+
+        arrayAm = Sorts.countingSort(arrayAm, 2730);
+
+        arrayDuong = Sorts.countingSort(arrayDuong, 5000);
+
+
+
+        File f = new File(outputName);
+
+        FileWriter fw = new FileWriter(f);
+
+        for (int i = arrayAm.length - 1; i >= 0; i--) {
+
+            fw.write("-" + String.valueOf((double) arrayAm[i] / 10) + "\n");
+
+        }
+
+        for (int j = 0; j < arrayDuong.length; j++) {
+
+            fw.write(String.valueOf((double) arrayDuong[j] / 10) + "\n");
+
+        }
+
         fw.close();
-        // трудоёмкост : O(n*log(n)) - n:количество входных строк
-        // ресурсоёмкост : O(n)
+
     }
 
     /**
