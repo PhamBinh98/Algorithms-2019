@@ -36,11 +36,11 @@ public class JavaAlgorithms {
      * <p>
      * В случае обнаружения неверного формата файла бросить любое исключение.
      */
-    static public Pair<Integer, Integer> optimizeBuyAndSell(String inputName) {
+    static public Pair<Integer, Integer> optimizeBuyAndSell(String inputName) throws FileNotFoundException {
         List<Integer> list = new ArrayList<>();
 
-        try {
-            Scanner scanner = new Scanner(new File(inputName));
+        try (Scanner scanner = new Scanner(new File(inputName))) {
+            ;
 
             while (scanner.hasNextInt()) {
                 int number = scanner.nextInt();
@@ -50,8 +50,6 @@ public class JavaAlgorithms {
 
                 } else throw new IllegalArgumentException();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
 
         int[] aNew = new int[list.size() - 1];

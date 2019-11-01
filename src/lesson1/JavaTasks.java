@@ -107,70 +107,42 @@ public class JavaTasks {
      * 121.3
      */
     static public void sortTemperatures(String inputName, String outputName) throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader(new File(inputName)));
 
         List<Integer> listNegativeInt = new ArrayList<>();
-
         List<Integer> listPositiveInt = new ArrayList<>();
 
+        BufferedReader br = new BufferedReader(new FileReader(new File(inputName)));
         String temp = br.readLine();
-
         int value = 0;
 
         while (temp != null) {
-
             value = (int) (Double.parseDouble(temp) * 10);
-
             if (value < 0) {
-
                 listNegativeInt.add(-value);
-
             } else listPositiveInt.add(value);
-
             temp = br.readLine();
-
         }
-
         int[] arrayAm = new int[listNegativeInt.size()];
-
         int[] arrayDuong = new int[listPositiveInt.size()];
 
         for (int i = 0; i < listNegativeInt.size(); i++) {
-
             arrayAm[i] = listNegativeInt.get(i);
-
         }
-
         for (int j = 0; j < listPositiveInt.size(); j++) {
-
             arrayDuong[j] = listPositiveInt.get(j);
-
         }
-
         arrayAm = Sorts.countingSort(arrayAm, 2730);
-
         arrayDuong = Sorts.countingSort(arrayDuong, 5000);
 
+        try(FileWriter fw = new FileWriter(outputName,false)) {
 
-
-        File f = new File(outputName);
-
-        FileWriter fw = new FileWriter(f);
-
-        for (int i = arrayAm.length - 1; i >= 0; i--) {
-
-            fw.write("-" + String.valueOf((double) arrayAm[i] / 10) + "\n");
-
+            for (int i = arrayAm.length - 1; i >= 0; i--) {
+                fw.write("-" + String.valueOf((double) arrayAm[i] / 10) + "\n");
+            }
+            for (int j = 0; j < arrayDuong.length; j++) {
+                fw.write(String.valueOf((double) arrayDuong[j] / 10) + "\n");
+            }
         }
-
-        for (int j = 0; j < arrayDuong.length; j++) {
-
-            fw.write(String.valueOf((double) arrayDuong[j] / 10) + "\n");
-
-        }
-
-        fw.close();
-
     }
 
     /**
