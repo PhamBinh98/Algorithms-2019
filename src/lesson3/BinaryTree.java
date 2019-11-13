@@ -190,9 +190,9 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Поиск следующего элемента
          * Средняя
          */
-        @Override
-        public T next() {
+        private Node<T> findNext() {
             return list.get(location++);
+        }
         }
         @Override
         public T next() {
