@@ -74,63 +74,9 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
      */
     @Override
     public boolean remove(Object o) {
-        if (!contains(o)) return false;
-        @SuppressWarnings("unchecked")
-        T data = (T) o;
-        Node<T> par = root;
-        Node<T> cur = root;
-        boolean IsLeftChild = false;
-        while (cur.value != data) {
-            par = cur;
-            if (data.compareTo(cur.value) < 0) {
-                cur = cur.left;
-                IsLeftChild = true;
-            }
-            else {
-                cur = cur.right;
-                IsLeftChild = false;
-            }
-        }
-        if (cur == null) {
-            if (cur == root) {
-                root = cur.left;
-            } else if (IsLeftChild){
-                par.left = cur.right;
-            } else {
-                par.right = cur.right;
-            }
-        } else if (cur.right == null) {
-            if (cur == root) {
-                root = cur.left;
-            } else if (IsLeftChild) {
-                par.left = cur.left;
-            } else {
-                par.right = cur.left;
-            }
-        } else {
-            Node<T> successor = cur.right;
-            Node<T> successorPar = cur;
-
-            while (successor.left != null) {
-                successorPar = successor;
-                successor = successor.left;
-            }
-            if (successor != cur.right) {
-                successorPar.left = successor.right;
-                successor.right = cur.right;
-            }
-            successor.left = cur.left;
-            if (cur == root) {
-                root = successor;
-            } else if (IsLeftChild) {
-                par.left = successor;
-            } else {
-                par.right = successor;
-            }
-        }
-        size--;
-        return true;
-}
+        // TODO
+        throw new NotImplementedError();
+    }
 
     @Override
     public boolean contains(Object o) {
@@ -162,19 +108,8 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
 
     public class BinaryTreeIterator implements Iterator<T> {
 
-        private Node<T> cur = null;
-        private int location = 0;
-        private List<Node<T>> list;
         private BinaryTreeIterator() {
-            list = new ArrayList<>();
-            addToList(root);
-        }
-        private void addToList(Node<T> node) {
-            if (node != null) {
-                addToList(node.left);
-                list.add(node);
-                addToList(node.right);
-            }
+            // Добавьте сюда инициализацию, если она необходима
         }
 
         /**
@@ -183,26 +118,18 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          */
         @Override
         public boolean hasNext() {
-            return location < list.size();
+            // TODO
+            throw new NotImplementedError();
         }
 
         /**
          * Поиск следующего элемента
          * Средняя
          */
-        private Node<T> findNext() {
-            return list.get(location++);
-        }
-        }
         @Override
         public T next() {
-            cur = findNext();
-            if (cur == null) try {
-                throw new NoSuchFieldException();
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-            return cur.value;
+            // TODO
+            throw new NotImplementedError();
         }
 
         /**
@@ -211,81 +138,79 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          */
         @Override
         public void remove() {
-            BinaryTree.this.remove(list.get(location - 1).value);
-            list.remove(location -1);
-            location--;
-
+            // TODO
+            throw new NotImplementedError();
         }
     }
 
-        @NotNull
-        @Override
-        public Iterator<T> iterator() {
+    @NotNull
+    @Override
+    public Iterator<T> iterator() {
         return new BinaryTreeIterator();
-        }
-
-        @Override
-        public int size() {
-        return size;
-        }
-
-        @Nullable
-        @Override
-        public Comparator<? super T> comparator() {
-        return null;
-        }
-
-        /**
-         * Для этой задачи нет тестов (есть только заготовка subSetTest), но её тоже можно решить и их написать
-         * Очень сложная
-         */
-        @NotNull
-        @Override
-        public SortedSet<T> subSet(T fromElement, T toElement) {
-            // TODO
-            throw new NotImplementedError();
-        }
-
-        /**
-         * Найти множество всех элементов меньше заданного
-         * Сложная
-         */
-        @NotNull
-        @Override
-        public SortedSet<T> headSet(T toElement) {
-            // TODO
-            throw new NotImplementedError();
-        }
-
-        /**
-         * Найти множество всех элементов больше или равных заданного
-         * Сложная
-         */
-        @NotNull
-        @Override
-        public SortedSet<T> tailSet(T fromElement) {
-            // TODO
-            throw new NotImplementedError();
-        }
-
-        @Override
-        public T first() {
-            if (root == null) throw new NoSuchElementException();
-            Node<T> current = root;
-            while (current.left != null) {
-                current = current.left;
-            }
-            return current.value;
-        }
-
-        @Override
-        public T last() {
-            if (root == null) throw new NoSuchElementException();
-            Node<T> current = root;
-            while (current.right != null) {
-                current = current.right;
-            }
-            return current.value;
-        }
     }
 
+    @Override
+    public int size() {
+        return size;
+    }
+
+
+    @Nullable
+    @Override
+    public Comparator<? super T> comparator() {
+        return null;
+    }
+
+    /**
+     * Для этой задачи нет тестов (есть только заготовка subSetTest), но её тоже можно решить и их написать
+     * Очень сложная
+     */
+    @NotNull
+    @Override
+    public SortedSet<T> subSet(T fromElement, T toElement) {
+        // TODO
+        throw new NotImplementedError();
+    }
+
+    /**
+     * Найти множество всех элементов меньше заданного
+     * Сложная
+     */
+    @NotNull
+    @Override
+    public SortedSet<T> headSet(T toElement) {
+        // TODO
+        throw new NotImplementedError();
+    }
+
+    /**
+     * Найти множество всех элементов больше или равных заданного
+     * Сложная
+     */
+    @NotNull
+    @Override
+    public SortedSet<T> tailSet(T fromElement) {
+        // TODO
+        throw new NotImplementedError();
+    }
+
+    @Override
+    public T first() {
+        if (root == null) throw new NoSuchElementException();
+        Node<T> current = root;
+        while (current.left != null) {
+            current = current.left;
+        }
+        return current.value;
+    }
+
+    @Override
+    public T last() {
+        if (root == null) throw new NoSuchElementException();
+        Node<T> current = root;
+        while (current.right != null) {
+            current = current.right;
+        }
+        return current.value;
+    }
+}
