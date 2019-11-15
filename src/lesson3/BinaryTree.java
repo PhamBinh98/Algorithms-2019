@@ -74,8 +74,61 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
      */
     @Override
     public boolean remove(Object o) {
-        // TODO
-        throw new NotImplementedError();
+       if (!contains(o)) return false;
+       @SuppressWarnings("unchecked")
+               T data = (T) o;
+       Node<T> parent = root;
+       Node<T> current = root;
+       boolean IsLeftChild = false;
+       while (current.value != data) {
+           parent = current;
+           if (data.compareTo(current.value) < 0) {
+               current = current.left;
+               IsLeftChild = true;
+           } else {
+               current = current.right;
+               IsLeftChild = false;
+           }
+       }
+       if (current.left == null) {
+           if (current == root) {
+               root = current.right;
+           } else if (IsLeftChild) {
+               parent.left = current.right;
+           } else {
+               parent.right = current.right;
+           }
+       } else if (current.right == null) {
+           if (current == root) {
+               root = current.left;
+           } else if (IsLeftChild) {
+               parent.left = current.left;
+           } else {
+               parent.right = current.left;
+           }
+       } else {
+           Node<T> succ = current.right;
+           Node<T> succPar = current;
+
+           while (succ.left != null) {
+               succPar = succ;
+               succ = succ.left;
+           }
+           if (succ != current.right) {
+               succPar.left = succ.right;
+               succ.right = current.right;
+           }
+           succ.left = current.left;
+           if (current == root) {
+               root = succ;
+           } else if (IsLeftChild) {
+               parent.left = succ;
+           } else {
+               parent.right = succ;
+           }
+       }
+       size--;
+       return true;
     }
 
     @Override
@@ -108,8 +161,19 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
 
     public class BinaryTreeIterator implements Iterator<T> {
 
+        private Node<T> current = null;
+        private int location = 0;
+        private List<Node<T>> list;
         private BinaryTreeIterator() {
-            // Добавьте сюда инициализацию, если она необходима
+           list = new ArrayList<>();
+           addToList(root);
+        }
+        private void addToList(Node<T> node) {
+            if (node != null) {
+                addToList(node.left);
+                list.add(node);
+                addToList(node.right);
+            }
         }
 
         /**
@@ -118,18 +182,21 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          */
         @Override
         public boolean hasNext() {
-            // TODO
-            throw new NotImplementedError();
+            return location < list.size();
         }
 
         /**
          * Поиск следующего элемента
          * Средняя
          */
+        private Node<T> findNext() {
+            return list.get(location++);
+        }
         @Override
         public T next() {
-            // TODO
-            throw new NotImplementedError();
+            current = findNext();
+            if (current == null) throw new NoSuchElementException();
+            return current.value;
         }
 
         /**
@@ -138,8 +205,9 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          */
         @Override
         public void remove() {
-            // TODO
-            throw new NotImplementedError();
+           BinaryTree.this.remove(list.get(location - 1).value);
+           list.remove(location - 1);
+           location--;
         }
     }
 

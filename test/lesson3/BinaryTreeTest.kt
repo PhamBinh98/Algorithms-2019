@@ -84,6 +84,20 @@ class BinaryTreeTest {
         }
     }
 
+    private fun testRemove2(create: () -> CheckableSortedSet<Int>) {
+        val treeSet = TreeSet<Int>()
+        val binarySet = create()
+        for (i in 1..50) {
+            treeSet += i
+            binarySet += i
+        }
+        treeSet.remove(30)
+        binarySet.remove(30)
+        assertEquals<SortedSet<*>>(treeSet, binarySet)
+        assertFalse(binarySet.contains(30))
+
+    }
+
     @Test
     @Tag("Normal")
     fun testRemoveKotlin() {
@@ -94,6 +108,7 @@ class BinaryTreeTest {
     @Tag("Normal")
     fun testRemoveJava() {
         testRemove { createJavaTree() }
+        testRemove2 { createJavaTree() }
     }
 
     private fun testIterator(create: () -> CheckableSortedSet<Int>) {
@@ -129,6 +144,17 @@ class BinaryTreeTest {
         }
     }
 
+    private fun testIterator2(create: () -> CheckableSortedSet<Int>) {
+        val binarySet = create()
+        for (i in 10 downTo 1) {
+            binarySet += i
+        }
+        val binaryIt = binarySet.iterator()
+        for (j in 1..10) {
+            assertEquals(j, binaryIt.next())
+        }
+    }
+
     @Test
     @Tag("Normal")
     fun testIteratorKotlin() {
@@ -139,6 +165,7 @@ class BinaryTreeTest {
     @Tag("Normal")
     fun testIteratorJava() {
         testIterator { createJavaTree() }
+        testIterator2 { createJavaTree() }
     }
 
     private fun testIteratorRemove(create: () -> CheckableSortedSet<Int>) {
@@ -186,6 +213,39 @@ class BinaryTreeTest {
         }
     }
 
+    private fun testIteratorRemove2(create: () -> CheckableSortedSet<Int>) {
+        val random = Random()
+        for (iteration in 1..1000) {
+            val list = mutableListOf<Int>()
+            for (i in 1..1000) {
+                list.add(random.nextInt(100))
+            }
+            val treeSet = TreeSet<Int>()
+            val binarySet = create()
+            for (ele in list) {
+                treeSet += ele
+                binarySet += ele
+            }
+            val toRemove1 = list[random.nextInt(list.size)]
+            val toRemove2 = list[random.nextInt(list.size)]
+            val toRemove3 = list[random.nextInt(list.size)]
+            val toRemove4 = list[random.nextInt(list.size)]
+            treeSet.remove(toRemove1)
+            treeSet.remove(toRemove2)
+            treeSet.remove(toRemove3)
+            treeSet.remove(toRemove4)
+            val iterator = binarySet.iterator()
+            while (iterator.hasNext()) {
+                val element = iterator.next()
+                if (element == toRemove1 || element == toRemove2 || element == toRemove3 || element == toRemove4) {
+                    iterator.remove()
+                }
+            }
+            assertEquals<SortedSet<*>>(treeSet, binarySet)
+            assertEquals(treeSet.size, binarySet.size)
+        }
+    }
+
     @Test
     @Tag("Hard")
     fun testIteratorRemoveKotlin() {
@@ -196,5 +256,6 @@ class BinaryTreeTest {
     @Tag("Hard")
     fun testIteratorRemoveJava() {
         testIteratorRemove { createJavaTree() }
+        testIteratorRemove2 { createJavaTree() }
     }
 }
