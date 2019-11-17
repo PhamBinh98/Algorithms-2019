@@ -247,34 +247,8 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     @NotNull
     @Override
     public SortedSet<T> headSet(T toElement) {
-        SortedSet<T> set = new TreeSet<>();
-        headSetAlgor(toElement, set, root);
-        return set;
-    }
-
-    public void headSetAlgor(T toElement, SortedSet<T> set, Node<T> currentNode) {
-        int compareOfBranches = currentNode.value.compareTo(toElement);
-        switch (compareOfBranches) {
-            case -1:
-                set.add(currentNode.value);
-                if (currentNode.left != null) {
-                    additionOfBranchToSet(set, currentNode.left);
-                }
-                if (currentNode.right != null) {
-                    headSetAlgor(toElement, set, currentNode.right);
-                }
-                break;
-            case 0:
-                if (currentNode.left != null) {
-                    additionOfBranchToSet(set, currentNode.left);
-                }
-                break;
-            case 1:
-                if (currentNode.left != null) {
-                    headSetAlgor(toElement, set, currentNode.left);
-                }
-                break;
-        }
+        // TODO
+        throw new NotImplementedError();
     }
     /**
      * Найти множество всех элементов больше или равных заданного
@@ -283,38 +257,8 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     @NotNull
     @Override
     public SortedSet<T> tailSet(T fromElement) {
-       SortedSet<T> set = new TreeSet<>();
-       tailSetAlgor(fromElement, set, root);
-       return set;
-    }
-    public void additionOfBranchToSet(SortedSet<T> set, Node<T> currentNode ) {
-        set.add(currentNode.value);
-        if (currentNode.left != null) {
-            additionOfBranchToSet(set, currentNode.left);
-        }
-        if (currentNode.right != null) {
-            additionOfBranchToSet(set, currentNode.right);
-        }
-    }
-    public void tailSetAlgor(T toELement, SortedSet<T> set, Node<T> currentNode) {
-        int compareOfBranches = currentNode.value.compareTo(toELement);
-        switch (compareOfBranches) {
-            case -1:
-                if (currentNode.right != null) {
-                    tailSetAlgor(toELement, set, currentNode.right);
-                }
-                break;
-            case 0:
-            case 1:
-                set.add(currentNode.value);
-                if (currentNode.left != null) {
-                    tailSetAlgor(toELement, set, currentNode.left);
-                }
-                if (currentNode.right != null) {
-                    additionOfBranchToSet(set, currentNode.right);
-                }
-                break;
-        }
+        // TODO
+        throw new NotImplementedError();
     }
 
     @Override
