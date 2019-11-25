@@ -80,7 +80,8 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
        Node<T> parent = root;
        Node<T> current = root;
        boolean IsLeftChild = false;
-       while (current.value != data) {
+
+       while (data.compareTo(current.value) != 0) {
            parent = current;
            if (data.compareTo(current.value) < 0) {
                current = current.left;
