@@ -2,22 +2,24 @@ package lesson5;
 
 import kotlin.NotImplementedError;
 
-import java.util.List;
-import java.util.Set;
+import lesson5.impl.GraphBuilder;
+import org.jetbrains.annotations.Contract;
+
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class JavaGraphTasks {
     /**
      * Эйлеров цикл.
      * Средняя
-     *
+     * <p>
      * Дан граф (получатель). Найти по нему любой Эйлеров цикл.
      * Если в графе нет Эйлеровых циклов, вернуть пустой список.
      * Соседние дуги в списке-результате должны быть инцидентны друг другу,
      * а первая дуга в списке инцидентна последней.
      * Длина списка, если он не пуст, должна быть равна количеству дуг в графе.
      * Веса дуг никак не учитываются.
-     *
+     * <p>
      * Пример:
      *
      *      G -- H
@@ -36,6 +38,7 @@ public class JavaGraphTasks {
     public static List<Graph.Edge> findEulerLoop(Graph graph) {
         throw new NotImplementedError();
     }
+
 
     /**
      * Минимальное остовное дерево.
@@ -66,7 +69,28 @@ public class JavaGraphTasks {
      * J ------------ K
      */
     public static Graph minimumSpanningTree(Graph graph) {
-        throw new NotImplementedError();
+        GraphBuilder result = new GraphBuilder();
+        HashMap<Graph.Vertex, Integer> map = new HashMap<>();
+        int i = 0;
+        for (Graph.Vertex v : graph.getVertices()) {
+            map.put(result.addVertex(v.getName()), i);
+            i++;
+        }
+        for (Graph.Edge edge : graph.getEdges()) {
+            Graph.Vertex first = edge.getBegin();
+            Graph.Vertex second = edge.getEnd();
+            if (!map.get(first).equals(map.get(second))) {
+                int oldF = map.get(first);
+                int newF = map.get(second);
+                result.addConnection(first, second, 0);
+                for (Map.Entry<Graph.Vertex, Integer> entry : map.entrySet()) {
+                    if (entry.getValue().equals(oldF)) {
+                        entry.setValue(newF);
+                    }
+                }
+            }
+        }
+        return result.build();
     }
 
     /**
@@ -82,17 +106,17 @@ public class JavaGraphTasks {
      * C -- F    I
      * |
      * E
-     *
+     * <p>
      * Найти в нём самое большое независимое множество вершин и вернуть его.
      * Никакая пара вершин в независимом множестве не должна быть связана ребром.
-     *
+     * <p>
      * Если самых больших множеств несколько, приоритет имеет то из них,
      * в котором вершины расположены раньше во множестве this.vertices (начиная с первых).
-     *
+     * <p>
      * В данном случае ответ (A, E, F, D, G, J)
-     *
+     * <p>
      * Если на входе граф с циклами, бросить IllegalArgumentException
-     *
+     * <p>
      * Эта задача может быть зачтена за пятый и шестой урок одновременно
      */
     public static Set<Graph.Vertex> largestIndependentVertexSet(Graph graph) {
@@ -109,8 +133,8 @@ public class JavaGraphTasks {
      *
      * Пример:
      *
-     *      G -- H
-     *      |    |
+     *       G -- H
+     *       |    |
      * A -- B -- C -- D
      * |    |    |    |
      * E    F -- I    |
